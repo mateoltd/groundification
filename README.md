@@ -1,36 +1,196 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Groundification
 
-## Getting Started
+`groundification` is a React component library for creating dynamic and animated backgrounds, starting with a liquid blob effect. This package provides a highly customizable `LiquidBackground` component that can be easily integrated into any React or Next.js application.
 
-First, run the development server:
+## Installation
+
+Install the package using npm or yarn:
 
 ```bash
-npm run dev
+npm install groundification
 # or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+yarn add groundification
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Here's a basic example of how to use the `LiquidBackground` component in your React or Next.js application:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```tsx
+// app/page.tsx or any React component
+"use client";
 
-## Learn More
+import { useState } from 'react';
+import { LiquidBackground, ClusterConfig, BlobData } from 'groundification';
 
-To learn more about Next.js, take a look at the following resources:
+const initialBackgroundConfig: ClusterConfig[] = [
+  {
+    id: 'top-right-main',
+    position: { vertical: 'top', horizontal: 'right' },
+    size: 40,
+    inclination: 0.5,
+    color: '#c1d5d9',
+    opacity: 1.0,
+    blobCount: 35,
+    blobSize: { min: 5, max: 30 },
+  },
+  {
+    id: 'bottom-left-faint',
+    position: { vertical: 'bottom', horizontal: 'left' },
+    size: 30,
+    inclination: 0.5,
+    color: '#c1d5d9',
+    opacity: 0.4,
+    blobCount: 20,
+    blobSize: { min: 5, max: 10 },
+  },
+];
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+export default function HomePage() {
+  const [config, setConfig] = useState(initialBackgroundConfig);
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  const handleBlobEnter = (blob: BlobData) => {
+    console.log(`Entered blob:`, blob);
+  };
+  const handleBlobLeave = (blob: BlobData) => {
+    console.log(`Left blob:`, blob);
+  };
 
-## Deploy on Vercel
+  const handleBlobClick = (blob: BlobData) => {
+    console.log(`Clicked blob:`, blob);
+  };
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  const handleBlobHover = (blob: BlobData) => {
+    // This will fire on both enter and leave, you might want to differentiate based on your needs
+    console.log(`Hovered blob:`, blob);
+  };
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  return (
+    <main style={{ color: 'white', padding: '2rem', fontFamily: 'sans-serif', textAlign: 'center' }}>
+      <LiquidBackground
+        clusters={config}
+        blurAmount={120}
+        animationSpeed={220}
+        onBlobEnter={handleBlobEnter}
+        onBlobLeave={handleBlobLeave}
+        onBlobClick={handleBlobClick}
+        onBlobHover={handleBlobHover}
+        containerClassName="my-custom-container"
+        blurWrapperClassName="my-custom-blur-wrapper"
+        blobClassName="my-custom-blob"
+        grainOverlayClassName="my-custom-grain-overlay"
+        animationPreset="energetic"
+        maxBlobCount={50}
+        disableAnimations={false}
+        themeColors={['#ff0000', '#00ff00', '#0000ff']}
+      />
+      
+      <h1>Dynamic Liquid Background</h1>
+      <p>This background is created entirely with CSS.</p>
+    </main>
+  );
+}
+```
+
+## API Reference
+
+### `LiquidBackgroundProps`
+
+Interface for the `LiquidBackground` component's props:
+
+```typescript
+interface LiquidBackgroundProps {
+  clusters: ClusterConfig[];
+  animationSpeed?: number; // Default: 200 (seconds)
+  blurAmount?: number;    // Default: 120 (pixels)
+  containerClassName?: string; // Tailwind CSS classes for the main container div
+  blurWrapperClassName?: string; // Tailwind CSS classes for the blur wrapper div
+  blobClassName?: string; // Tailwind CSS classes for individual blob divs
+  grainOverlayClassName?: string; // Tailwind CSS classes for the grain overlay div
+  animationPreset?: "subtle" | "energetic"; // Predefined animation variations. Default: "subtle"
+  onBlobClick?: (blob: BlobData) => void; // Callback when a blob is clicked
+  onBlobHover?: (blob: BlobData) => void; // Callback when mouse enters/leaves a blob
+  maxBlobCount?: number; // Limits the total number of blobs for performance control
+  disableAnimations?: boolean; // If true, animations will be disabled. Default: false
+  themeColors?: string[]; // An array of color strings to randomly assign to blobs. Overrides `ClusterConfig.color`.
+  onBlobEnter?: (blob: BlobData) => void; // Callback when mouse enters a blob (original from component)
+  onBlobLeave?: (blob: BlobData) => void; // Callback when mouse leaves a blob (original from component)
+}
+```
+
+### `ClusterConfig`
+
+Interface for configuring a blob cluster:
+
+```typescript
+export interface ClusterConfig {
+  id: string | number;
+  position: { vertical: 'top' | 'bottom'; horizontal: 'left' | 'right' };
+  size: number;
+  inclination: number; // 0 to 1, where 0.5 is a 45-degree cut.
+  color: string;
+  opacity: number;
+  blobCount: number;
+  blobSize: { min: number; max: number };
+}
+```
+
+### `BlobData`
+
+Interface for individual blob data:
+
+```typescript
+export interface BlobData {
+  id: string;
+  configId: string | number;
+  style: React.CSSProperties;
+}
+```
+
+### `generateBlobsForCluster` function
+
+This utility function generates an array of `BlobData` objects based on a `ClusterConfig`. It is primarily used internally by `LiquidBackground` but is exported for advanced use cases.
+
+```typescript
+export const generateBlobsForCluster = (config: ClusterConfig): BlobData[] => { /* ... */ };
+```
+
+## Styling with Tailwind CSS
+
+The `LiquidBackground` component is designed to be easily customizable with Tailwind CSS. You can pass Tailwind utility classes to the `containerClassName`, `blurWrapperClassName`, `blobClassName`, and `grainOverlayClassName` props to override or extend the default styles.
+
+For example:
+
+```tsx
+<LiquidBackground
+  // ... other props
+  containerClassName="bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg shadow-xl"
+  blobClassName="!rounded-full transition-transform duration-300 hover:scale-110"
+/>
+```
+
+Note the `!` prefix in `!rounded-full`. This is important for overriding the default CSS module styles with Tailwind classes due to CSS specificity.
+
+## Development & Testing
+
+This project uses a Next.js `test-app` for development and testing the `groundification` package locally. 
+
+To run the `test-app`:
+
+1.  Build the `groundification` package:
+    ```bash
+    npm run build:package
+    ```
+2.  Install dependencies in `test-app` and link the package:
+    ```bash
+    cd test-app
+    npm install
+    npm link ../
+    cd ..
+    ```
+3.  Run the Next.js development server:
+    ```bash
+    npm run dev
+    ```
+
+This will start the `test-app` development server, allowing you to see changes to `LiquidBackground` in real-time. 
