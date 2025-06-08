@@ -21,9 +21,6 @@ export interface BlobData {
 }
 
 
-// ======================================================================
-// THE HYDRATION FIX: A SEEDED PSEUDO-RANDOM NUMBER GENERATOR (PRNG)
-// ======================================================================
 // This function creates a deterministic "random" number generator.
 // Given the same seed, it will always produce the same sequence of numbers.
 const createSeededRandom = (seed: number) => {
