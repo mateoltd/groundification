@@ -1,10 +1,16 @@
 {
-  "name": "liquid-react-testing",
+  "name": "groundification",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:package": "tsc --project tsconfig.build.json && cp src/components/LiquidBackground.module.css dist/LiquidBackground.module.css",
     "start": "next start",
     "lint": "next lint"
   },
