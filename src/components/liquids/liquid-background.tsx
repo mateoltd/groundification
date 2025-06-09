@@ -1,27 +1,11 @@
+'use client';
+
 import React, { useMemo } from 'react';
-import { generateBlobsForCluster, ClusterConfig, BlobData } from '../utils/blob-generator';
-import styles from './LiquidBackground.module.css';
+import { generateBlobsForCluster, ClusterConfig, BlobData } from '../../procedural/blobs/blob-generator';
+import styles from './liquid-background.module.css';
+import { LiquidBackgroundProps } from '../../types/component-props';
 
-export interface LiquidBackgroundProps {
-  clusters: ClusterConfig[];
-  animationSpeed?: number;
-  blurAmount?: number;
-  containerClassName?: string; // New: for the main container div
-  blurWrapperClassName?: string; // New: for the blur wrapper div
-  blobClassName?: string; // New: for individual blob divs
-  grainOverlayClassName?: string; // New: for the grain overlay div
-  animationPreset?: "subtle" | "energetic"; // New: for animation variations
-  onBlobClick?: (blob: BlobData) => void; // New: for blob click interaction
-  onBlobHover?: (blob: BlobData) => void; // New: for blob hover interaction
-  maxBlobCount?: number; // New: for performance control
-  disableAnimations?: boolean; // New: for performance control
-  themeColors?: string[]; // New: for theming
-  // --- Placeholder functions for future development ---
-  onBlobEnter?: (blob: BlobData) => void;
-  onBlobLeave?: (blob: BlobData) => void;
-}
-
-const LiquidBackground: React.FC<LiquidBackgroundProps> = ({
+export const LiquidBackground: React.FC<LiquidBackgroundProps> = ({
   clusters,
   animationSpeed = 200,
   blurAmount = 120,
@@ -37,6 +21,7 @@ const LiquidBackground: React.FC<LiquidBackgroundProps> = ({
   themeColors,
   onBlobEnter = () => {}, // Default empty function
   onBlobLeave = () => {}, // Default empty function
+  className,
 }) => {
   const allBlobs = useMemo(() => {
     const effectiveClusters = maxBlobCount ? 
@@ -52,7 +37,7 @@ const LiquidBackground: React.FC<LiquidBackgroundProps> = ({
   };
 
   return (
-    <div className={`${styles.container} ${containerClassName}`} style={containerStyle}>
+    <div className={`${styles.container} ${containerClassName} ${className || ''}`} style={containerStyle}>
       <div className={`${styles.blurWrapper} ${blurWrapperClassName}`}>
         {allBlobs.map((blob) => (
           <div
@@ -73,4 +58,3 @@ const LiquidBackground: React.FC<LiquidBackgroundProps> = ({
   );
 };
 
-export { LiquidBackground };

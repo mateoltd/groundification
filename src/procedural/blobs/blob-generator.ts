@@ -7,7 +7,7 @@ export interface ClusterConfig {
   id: string | number;
   position: { vertical: VerticalPosition; horizontal: HorizontalPosition };
   size: number;
-  inclination: number; // The new key property! 0 to 1, where 0.5 is a 45-degree cut.
+  inclination: number; // 0 to 1, where 0.5 is a 45-degree cut
   color: string;
   opacity: number;
   blobCount: number;
@@ -42,9 +42,7 @@ const stringToSeed = (str: string): number => {
   return Math.abs(hash);
 };
 
-
-// --- THE NEW, ROBUST, AND DETERMINISTIC ALGORITHM ---
-
+// Algorithm 
 export const generateBlobsForCluster = (config: ClusterConfig): BlobData[] => {
   const blobs: BlobData[] = [];
   const { id, position, size, inclination } = config;

@@ -2,6 +2,65 @@
 
 `groundification` is a React component library for creating dynamic and animated backgrounds, starting with a liquid blob effect. This package provides a highly customizable `LiquidBackground` component that can be easily integrated into any React or Next.js application.
 
+```
+groundification/
+├── src/
+│   ├── components/
+│   │   ├── groundification-provider/
+│   │   │   ├── GroundificationProvider.tsx  // React Context Provider
+│   │   │   └── index.ts                 // Export for the provider
+│   │   ├── groundification-background/
+│   │   │   ├── GroundificationBackground.tsx // Main orchestrating component
+│   │   │   └── index.ts                 // Export for the main component
+│   │   ├── liquid-background/
+│   │   │   ├── LiquidBackground.tsx     // Specific liquid background component
+│   │   │   ├── LiquidBackground.module.css // Module-specific CSS for animations, blend modes
+│   │   │   └── index.ts                 // Export for the liquid background module
+│   │   └── [other-background-style]/    // Future: directory for new background types
+│   │       └── ...
+│   ├── core/
+│   │   ├── orchestration-system/
+│   │   │   ├── OrchestrationSystem.ts   // Core logic for combining backgrounds
+│   │   │   └── index.ts
+│   │   ├── theme-manager/
+│   │   │   ├── ThemeManager.ts          // Logic for applying themes
+│   │   │   ├── ThemeContext.ts          // If theme context is separate
+│   │   │   └── index.ts
+│   │   └── performance-optimization/
+│   │       ├── PerformanceOptimizer.ts  // Utilities for performance controls
+│   │       └── index.ts
+│   ├── generators/
+│   │   ├── blob-generator/
+│   │   │   ├── blob-generator.ts        // Core logic for generating blob data
+│   │   │   └── index.ts
+│   │   └── [other-generator]/           // Future: directory for other generative logic
+│   │       └── ...
+│   ├── utils/
+│   │   ├── math/
+│   │   │   ├── index.ts                 // Math utility functions
+│   │   └── svg/
+│   │       ├── index.ts                 // SVG manipulation utilities
+│   │   └── constants/                   // For shared constants like animation durations
+│   │       └── index.ts
+│   ├── styles/
+│   │   ├── shared.css                   // Global/shared CSS not handled by Tailwind
+│   │   └── tailwind.config.ts           // If specific Tailwind config is needed for the package
+│   ├── types/
+│   │   ├── index.ts                     // Central file for all shared TypeScript interfaces/types
+│   │   └── component-props.ts           // Specific prop types for components
+│   ├── hooks/
+│   │   ├── use-groundification.ts       // Custom hooks for consuming context or features
+│   │   └── index.ts
+│   └── index.ts                         // Main entry point: re-exports public components, types, etc.
+├── dist/                                // Output directory for compiled package (after build)
+├── package.json                         // Package metadata
+├── tsconfig.json                        // TypeScript configuration for development
+├── tsconfig.build.json                  // TypeScript configuration for package build
+├── README.md                            // Comprehensive documentation
+└── pnpm-lock.yaml                       // or package-lock.json / yarn.lock 
+```
+
+
 ## Installation
 
 Install the package using npm or yarn:
