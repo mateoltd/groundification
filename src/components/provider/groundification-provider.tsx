@@ -10,7 +10,10 @@ export const GroundificationProvider: React.FC<GroundificationProviderProps> = (
   initialConfig,
   initialTheme,
 }) => {
-  const [config, setConfig] = useState<GroundificationConfig>(initialConfig || { debugMode: false });
+  const [config, setConfig] = useState<GroundificationConfig>(initialConfig || { 
+    debugMode: false,
+    clusters: [],
+  });
   const [theme, setTheme] = useState<GroundificationTheme>(initialTheme || {});
 
   const contextValue: GroundificationContextType = {

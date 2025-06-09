@@ -1,59 +1,61 @@
-.liquid-background-container {
+.main-background-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  
+  .blobs-container {
+    position: relative; /* Blobs will be absolute to this container */
+    width: 100%;
+    height: 100%;
+  }
+
+  .blurWrapper {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none; /* Allows interaction with content above */
-}
-
-.blurWrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  filter: url(#goo);
-}
-
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  background-color: var(--blob-color, #ff00ff); /* Placeholder */
+    width: 100%;
+    height: 100%;
+  filter: blur(var(--blur-amount, 100px));
+  transform: translateZ(0); /* Force hardware acceleration for better clipping */
+  }
+  
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+  /* background-color: var(--blob-color, #ff00ff); Removed: Color is now set via inline style from blob-generator */
   opacity: var(--blob-opacity, 0.7);
-  animation: morph 8s ease-in-out infinite both alternate,
-             spin 12s linear infinite;
+  animation: collectiveDrift var(--animation-speed, 200s) infinite linear; 
   transform-origin: 50% 50%;
   filter: blur(var(--blur-amount, 80px));
-  mix-blend-mode: multiply; /* Key for the liquid effect */
-}
+  mix-blend-mode: lighten;
+  will-change: transform;
+  }
+  
+  @keyframes collectiveDrift {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(calc(-1.04vw), calc(1.04vh)); } /* -20px on 1920px -> -1.04vw; 20px on 1920px -> 1.04vh */
+    50% { transform: translate(calc(0.52vw), calc(-1.56vh)); } /* 10px on 1920px -> 0.52vw; -30px on 1920px -> -1.56vh */
+    75% { transform: translate(calc(1.56vw), calc(0.52vh)); } /* 30px on 1920px -> 1.56vw; 10px on 1920px -> 0.52vh */
+    100% { transform: translate(0, 0); }
+  }
 
 .noAnimation {
   animation: none !important;
 }
-
-.grainOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feBlend mode="multiply" in="SourceGraphic"/></filter><rect width="100%" height="100%" filter="url(#noiseFilter)"/></svg>');
-  pointer-events: none;
-  opacity: 0.1;
+  
+  .grainOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39sbGxvb29paWlxcXFzc3N6enqUlJTExMSzs7Ovr6+pqamlpaUAAAAArwNvAAAAIklEQVR42mNgwAIdYKKMWQIEBhiAxKKYBEgQGIQpBcwg+QIAEAoDSQAU3sAAAAASUVORK5CYII='); /* Restored original grain overlay image */
+    pointer-events: none;
+  opacity: 0.04; /* Restored original opacity */
   mix-blend-mode: overlay;
-}
-
-/* Keyframe animations */
-@keyframes morph {
-  0% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; }
-  100% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; }
-  30% { border-radius: 70% 30% 50% 50% / 30% 50% 70% 50%; }
-  60% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%; }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+  }

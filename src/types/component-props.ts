@@ -44,11 +44,15 @@ export interface GroundificationProviderProps {
    */
   initialConfig?: {
     debugMode?: boolean;
+    animationSpeed?: number;
+    blurAmount?: number;
+    clusters?: ClusterConfig[]; // Added for flexible cluster definition
   };
   /**
    * Initial theme for the Groundification package.
    */
   initialTheme?: {
     primaryColor?: string;
+    secondaryColor?: string;
   };
 }

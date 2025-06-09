@@ -7,7 +7,7 @@ export interface ClusterConfig {
   id: string | number;
   position: { vertical: VerticalPosition; horizontal: HorizontalPosition };
   size: number;
-  inclination: number; // 0 to 1, where 0.5 is a 45-degree cut
+  inclination: number; // The new key property! 0 to 1, where 0.5 is a 45-degree cut.
   color: string;
   opacity: number;
   blobCount: number;
@@ -22,7 +22,7 @@ export interface BlobData {
 
 
 // This function creates a deterministic "random" number generator.
-// Given the same seed, it will always produce the same sequence of numbers
+// Given the same seed, it will always produce the same sequence of numbers.
 const createSeededRandom = (seed: number) => {
   let state = seed;
   return () => {
@@ -31,7 +31,7 @@ const createSeededRandom = (seed: number) => {
   };
 };
 
-// Simple hash function to convert a string ID into a number seed
+// Simple hash function to convert a string ID into a number seed.
 const stringToSeed = (str: string): number => {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -42,16 +42,18 @@ const stringToSeed = (str: string): number => {
   return Math.abs(hash);
 };
 
-// Algorithm 
+
+// --- THE NEW, ROBUST, AND DETERMINISTIC ALGORITHM ---
+
 export const generateBlobsForCluster = (config: ClusterConfig): BlobData[] => {
   const blobs: BlobData[] = [];
   const { id, position, size, inclination } = config;
 
-  // 1. Create a deterministic random generator seeded by the cluster's ID
+  // 1. Create a deterministic random generator seeded by the cluster's ID.
   const seed = typeof id === 'string' ? stringToSeed(id) : id;
   const random = createSeededRandom(seed);
 
-  // 2. Define the cluster's bounding box
+  // 2. Define the cluster's bounding box.
   const bbox = {
     x: position.horizontal === 'left' ? 0 : 100 - size,
     y: position.vertical === 'top' ? 0 : 100 - size,
@@ -59,7 +61,7 @@ export const generateBlobsForCluster = (config: ClusterConfig): BlobData[] => {
     height: size,
   };
 
-  // 3. Define the diagonal line using the new `inclination` property
+  // 3. Define the diagonal line using the new `inclination` property.
   const p1 = {
     x: bbox.x + (position.horizontal === 'left' ? bbox.width * inclination : bbox.width * (1 - inclination)),
     y: bbox.y,
@@ -74,55 +76,39 @@ export const generateBlobsForCluster = (config: ClusterConfig): BlobData[] => {
     [p1.y, p2.y] = [p2.y, p1.y];
   }
 
-  // 4. Derive the standard line equation Ax + By + C = 0
+  // 4. Derive the standard line equation Ax + By + C = 0.
   const A = p1.y - p2.y;
   const B = p2.x - p1.x;
   const C = -A * p1.x - B * p1.y;
 
-  // 5. The reference point (the corner) is guaranteed to be inside
+  // 5. The reference point (the corner) is guaranteed to be inside.
   const refPoint = { x: position.horizontal === 'left' ? 0 : 100, y: position.vertical === 'top' ? 0 : 100 };
   const refSide = A * refPoint.x + B * refPoint.y + C;
 
-  // 6. Generate blobs, ensuring they are on the correct side of the line
+  // 6. Generate blobs, ensuring they are on the correct side of the line.
   for (let i = 0; i < config.blobCount; i++) {
     let x, y;
     do {
-      // Use our seeded PRNG for all random values
+      // Use our seeded PRNG for all random values.
       x = bbox.x + random() * bbox.width;
       y = bbox.y + random() * bbox.height;
       const pointSide = A * x + B * y + C;
-      if (pointSide * refSide >= 0) break; // Check if on the same side as the corner
+      if (pointSide * refSide >= 0) break; // Check if on the same side as the corner.
     } while (true);
 
-    const initialBlobSize = random() * (config.blobSize.max - config.blobSize.min) + config.blobSize.min;
-    const clampedBlobSize = Math.min(initialBlobSize, 50); // Ensures blob itself is not larger than viewport
-
-    let finalX: number;
-    let finalY: number;
-
-    if (clampedBlobSize >= 50) {
-      // If blob is larger than or equal to viewport, place it at 0,0
-      finalX = 0;
-      finalY = 0;
-    } else {
-      // Normal clamping: ensure x is between 0 and (100 - clampedBlobSize)
-      finalX = Math.max(0, Math.min(x, 100 - clampedBlobSize));
-      // Normal clamping: ensure y is between 0 and (100 - clampedBlobSize)
-      finalY = Math.max(0, Math.min(y, 100 - clampedBlobSize));
-    }
-
+    const blobSize = random() * (config.blobSize.max - config.blobSize.min) + config.blobSize.min;
+    
     blobs.push({
       id: `${id}-${i}`,
       configId: id,
       style: {
-        top: `${finalY}vh`,
-        left: `${finalX}vw`,
-        width: `${clampedBlobSize}vw`,
-        height: `${clampedBlobSize}vw`,
+        top: `${y}vh`,
+        left: `${x}vw`,
+        width: `${blobSize}vw`,
+        height: `${blobSize}vw`,
         backgroundColor: config.color,
         opacity: config.opacity,
-        animationDelay: `-${random() * 5}s`,
-        willChange: 'transform, opacity',
+        animationDelay: `-${random() * 5}s`, // Also deterministic
       },
     });
   }

@@ -1,0 +1,46 @@
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #000000;
+    overflow: hidden;
+    border-radius: 20px;
+    z-index: -1;
+  }
+  
+  .blurWrapper {
+    width: 100%;
+    height: 100%;
+    /* The blur amount is now controlled by the component! */
+    filter: blur(var(--blur-amount, 100px));
+  }
+  
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    mix-blend-mode: lighten;
+    will-change: transform;
+    /* The animation speed is also controlled by the component */
+    animation: collectiveDrift var(--animation-speed, 200s) infinite linear;
+  }
+  
+  @keyframes collectiveDrift {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-20px, 20px); }
+    50% { transform: translate(10px, -30px); }
+    75% { transform: translate(30px, 10px); }
+    100% { transform: translate(0, 0); }
+  }
+  
+  .grainOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39sbGxvb29paWlxcXFzc3N6enqUlJTExMSzs7Ovr6+pqamlpaUAAAAArwNvAAAAIklEQVR42mNgwAIdYKKMWQIEBhiAxKKYBEgQGIQpBcwg+QIAEAoDSQAU3sAAAAASUVORK5CYII=');
+    opacity: 0.04;
+    pointer-events: none;
+  }

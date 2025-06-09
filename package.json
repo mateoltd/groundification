@@ -7,10 +7,13 @@
   "files": [
     "./dist"
   ],
+  "workspaces": [
+    "test-app"
+  ],
   "scripts": {
     "dev": "npm run dev --workspace=test-app",
     "build": "npm run build --workspace=test-app",
-    "build:package": "rm -rf dist && tsc --project tsconfig.build.json && copyfiles -u 1 \"src/**/*.module.css\" dist",
+    "build:package": "rm -rf dist && tsc --project tsconfig.build.json && copyfiles -u 1 \"src/**/*.css\" dist",
     "start": "npm run start --workspace=test-app",
     "lint": "npm run lint --workspace=test-app"
   },

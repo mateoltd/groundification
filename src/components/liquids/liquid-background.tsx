@@ -19,8 +19,8 @@ export const LiquidBackground: React.FC<LiquidBackgroundProps> = ({
   maxBlobCount,
   disableAnimations = false,
   themeColors,
-  onBlobEnter = () => {}, // Default empty function
-  onBlobLeave = () => {}, // Default empty function
+  onBlobEnter = () => {}, // TODO: Default empty function
+  onBlobLeave = () => {}, // TODO: Default empty function
   className,
 }) => {
   const allBlobs = useMemo(() => {
@@ -31,13 +31,18 @@ export const LiquidBackground: React.FC<LiquidBackgroundProps> = ({
   }, [clusters, maxBlobCount]);
 
   const containerStyle: React.CSSProperties & { [key: string]: any } = {
-    '--animation-speed': `${animationSpeed}s`,
+    '--animation-speed': `${animationSpeed}s`, 
     '--blur-amount': `${blurAmount}px`,
     ...(disableAnimations && { 'animation': 'none', 'transition': 'none' }),
   };
 
   return (
-    <div className={`${styles.container} ${containerClassName} ${className || ''}`} style={containerStyle}>
+    <div 
+      className={`${styles.blobsContainer} ${containerClassName} ${className || ''}`} 
+      style={{
+        ...containerStyle
+      }}
+    >
       <div className={`${styles.blurWrapper} ${blurWrapperClassName}`}>
         {allBlobs.map((blob) => (
           <div
@@ -45,7 +50,9 @@ export const LiquidBackground: React.FC<LiquidBackgroundProps> = ({
             className={`${styles.blob} ${blobClassName} ${disableAnimations ? styles.noAnimation : ''}`}
             style={{
               ...blob.style,
-              ...(themeColors && { backgroundColor: themeColors[Math.floor(Math.random() * themeColors.length)] }),
+              // themeColors are now handled by blob-generator based on ClusterConfig if needed.
+              // If a more dynamic, theme-driven color override is desired here, 
+              // it needs to be deterministic (e.g., based on blob.id or a deterministic hash).
             }}
             onMouseEnter={() => onBlobHover && onBlobHover(blob)}
             onMouseLeave={() => onBlobHover && onBlobHover(blob)}

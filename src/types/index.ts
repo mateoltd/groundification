@@ -1,3 +1,5 @@
+import { ClusterConfig } from '../procedural/blobs/blob-generator';
+
 export * from './index';
 export * from './component-props';
 
@@ -7,6 +9,10 @@ export interface GroundificationConfig {
   debugMode?: boolean;
   animationSpeed?: number;
   blurAmount?: number;
+  clusters?: ClusterConfig[];
+  animationPreset?: "subtle" | "energetic";
+  maxBlobCount?: number;
+  disableAnimations?: boolean;
 }
 
 export interface GroundificationTheme {
