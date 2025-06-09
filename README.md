@@ -6,31 +6,31 @@
 groundification/
 ├── src/
 │   ├── components/
-│   │   ├── groundification-provider/
+│   │   ├── provider/
 │   │   │   ├── GroundificationProvider.tsx  // React Context Provider
 │   │   │   └── index.ts                 // Export for the provider
-│   │   ├── groundification-background/
+│   │   ├── background/
 │   │   │   ├── GroundificationBackground.tsx // Main orchestrating component
 │   │   │   └── index.ts                 // Export for the main component
-│   │   ├── liquid-background/
+│   │   ├── liquids/
 │   │   │   ├── LiquidBackground.tsx     // Specific liquid background component
 │   │   │   ├── LiquidBackground.module.css // Module-specific CSS for animations, blend modes
 │   │   │   └── index.ts                 // Export for the liquid background module
 │   │   └── [other-background-style]/    // Future: directory for new background types
 │   │       └── ...
 │   ├── core/
-│   │   ├── orchestration-system/
+│   │   ├── orchestration/
 │   │   │   ├── OrchestrationSystem.ts   // Core logic for combining backgrounds
 │   │   │   └── index.ts
 │   │   ├── theme-manager/
 │   │   │   ├── ThemeManager.ts          // Logic for applying themes
 │   │   │   ├── ThemeContext.ts          // If theme context is separate
 │   │   │   └── index.ts
-│   │   └── performance-optimization/
+│   │   └── performance/
 │   │       ├── PerformanceOptimizer.ts  // Utilities for performance controls
 │   │       └── index.ts
-│   ├── generators/
-│   │   ├── blob-generator/
+│   ├── procedural/
+│   │   ├── blobs/
 │   │   │   ├── blob-generator.ts        // Core logic for generating blob data
 │   │   │   └── index.ts
 │   │   └── [other-generator]/           // Future: directory for other generative logic
@@ -38,16 +38,16 @@ groundification/
 │   ├── utils/
 │   │   ├── math/
 │   │   │   ├── index.ts                 // Math utility functions
-│   │   └── svg/
-│   │       ├── index.ts                 // SVG manipulation utilities
+│   │   ├── svg/
+│   │   │   ├── index.ts                 // SVG manipulation utilities
 │   │   └── constants/                   // For shared constants like animation durations
 │   │       └── index.ts
 │   ├── styles/
-│   │   ├── shared.css                   // Global/shared CSS not handled by Tailwind
-│   │   └── tailwind.config.ts           // If specific Tailwind config is needed for the package
+│   │   └── shared.css                   // Global/shared CSS not handled by Tailwind
 │   ├── types/
 │   │   ├── index.ts                     // Central file for all shared TypeScript interfaces/types
-│   │   └── component-props.ts           // Specific prop types for components
+│   │   ├── component-props.ts           // Specific prop types for components
+│   │   └── css.d.ts                     // CSS module type definitions
 │   ├── hooks/
 │   │   ├── use-groundification.ts       // Custom hooks for consuming context or features
 │   │   └── index.ts
