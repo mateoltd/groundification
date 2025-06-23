@@ -1,3 +1,5 @@
+Warning: This version is not stable and is not recommened to use until v1
+
 # Groundification
 
 `groundification` is a React component library for creating dynamic and animated backgrounds, starting with a liquid blob effect. This package provides a highly customizable `LiquidBackground` component that can be easily integrated into any React or Next.js application.
