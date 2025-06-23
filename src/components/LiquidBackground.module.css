@@ -13,8 +13,8 @@
 .blurWrapper {
   width: 100%;
   height: 100%;
-  /* The blur amount is now controlled by the component! */
-  filter: blur(var(--blur-amount, 100px));
+  
+  filter: blur(var(--blur-amount, 100px)); /* Controlled by the component */
 }
 
 .blob {
@@ -22,8 +22,7 @@
   border-radius: 50%;
   mix-blend-mode: lighten;
   will-change: transform;
-  /* The animation speed is also controlled by the component */
-  animation: collectiveDrift var(--animation-speed, 200s) infinite linear;
+  animation: collectiveDrift var(--animation-speed, 200s) infinite linear; /* Controlled by the component */
 }
 
 @keyframes collectiveDrift {

@@ -6,17 +6,17 @@ export interface LiquidBackgroundProps {
   clusters: ClusterConfig[];
   animationSpeed?: number;
   blurAmount?: number;
-  containerClassName?: string; // New: for the main container div
-  blurWrapperClassName?: string; // New: for the blur wrapper div
-  blobClassName?: string; // New: for individual blob divs
-  grainOverlayClassName?: string; // New: for the grain overlay div
-  animationPreset?: "subtle" | "energetic"; // New: for animation variations
-  onBlobClick?: (blob: BlobData) => void; // New: for blob click interaction
-  onBlobHover?: (blob: BlobData) => void; // New: for blob hover interaction
-  maxBlobCount?: number; // New: for performance control
-  disableAnimations?: boolean; // New: for performance control
-  themeColors?: string[]; // New: for theming
-  // --- Placeholder functions for future development ---
+  containerClassName?: string; // For the main container div
+  blurWrapperClassName?: string; // For the blur wrapper div
+  blobClassName?: string; // For individual blob divs
+  grainOverlayClassName?: string; // For the grain overlay div
+  animationPreset?: "subtle" | "energetic"; // For animation variations
+  onBlobClick?: (blob: BlobData) => void; // For blob click interaction
+  onBlobHover?: (blob: BlobData) => void; // For blob hover interaction
+  maxBlobCount?: number; // For performance control
+  disableAnimations?: boolean; // For performance control
+  themeColors?: string[]; // For theming
+  // TODO: Placeholder functions for future development
   onBlobEnter?: (blob: BlobData) => void;
   onBlobLeave?: (blob: BlobData) => void;
 }
@@ -35,8 +35,8 @@ const LiquidBackground: React.FC<LiquidBackgroundProps> = ({
   maxBlobCount,
   disableAnimations = false,
   themeColors,
-  onBlobEnter = () => {}, // Default empty function
-  onBlobLeave = () => {}, // Default empty function
+  // TODO: onBlobEnter = () => {}, 
+  // TODO: onBlobLeave = () => {},
 }) => {
   const allBlobs = useMemo(() => {
     const effectiveClusters = maxBlobCount ? 
