@@ -1,6 +1,6 @@
 {
   "name": "groundification",
-  "version": "0.1.1b",
+  "version": "0.1.2",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -17,7 +17,8 @@
     "build:package": "tsc --project tsconfig.build.cjs.json && tsc --project tsconfig.build.esm.json && cp src/components/LiquidBackground.module.css dist/esm/components/LiquidBackground.module.css",
     "prepublishOnly": "pnpm run build:package",
     "start": "npm run start --workspace=test-app",
-    "lint": "npm run lint --workspace=test-app"
+    "lint": "npm run lint --workspace=test-app",
+    "dev:local": "pnpm run build:package && pnpm run dev --workspace=test-app"
   },
   "dependencies": {
     "react": "^19.0.0",
