@@ -8,7 +8,8 @@
     "test-app"
   ],
   "files": [
-    "dist"
+    "dist",
+    "!dist/**/*.tsbuildinfo"
   ],
   "scripts": {
     "dev": "npm run dev --workspace=test-app",
